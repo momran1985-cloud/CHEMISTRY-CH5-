@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منصة اختبارات تحصيلي — سرعة التفاعل والاتزان الكيميائي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#10264a; --ink2:#34476b; --paper:#f6f3e9; --card:#ffffff; --line:#dcd6c3;
+  --teal:#0e7c86; --teal-d:#0a5c64; --amber:#f59e0b; --ok:#15803d; --okbg:#e7f6ec; --bad:#b91c1c; --badbg:#fdeaea;
+  --r:16px; --shadow:0 6px 22px rgba(16,38,74,.10);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:'Tajawal','Segoe UI',Tahoma,Arial,sans-serif;color:var(--ink);background:var(--paper);
+  background-image:linear-gradient(rgba(14,124,134,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(14,124,134,.07) 1px,transparent 1px);
+  background-size:28px 28px;line-height:1.7;min-height:100vh}
+button{font-family:inherit;cursor:pointer}
+bdi{unicode-bidi:isolate}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+.btn{border:0;border-radius:12px;padding:11px 20px;font-size:1rem;font-weight:700;background:var(--teal);color:#fff;transition:transform .12s,background .15s,box-shadow .15s;box-shadow:0 3px 0 var(--teal-d)}
+.btn:hover{background:#0b6e77}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--teal-d)}
+.btn.sec{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line);border:1.5px solid var(--line)}
+.btn.sec:hover{background:#fbf9f1}
+.btn.amber{background:var(--amber);color:#3b2600;box-shadow:0 3px 0 #b97800}
+.btn.red{background:var(--bad);box-shadow:0 3px 0 #7f1212}
+.btn.sm{padding:7px 14px;font-size:.9rem}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--line)}
+.top{background:var(--ink);color:#fff;border-radius:0 0 22px 22px;padding:14px 16px;margin:0 -16px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.top .brand{display:flex;align-items:center;gap:10px;flex:1;min-width:220px}
+.top .brand b{font-size:1.1rem;font-weight:800}
+.top .brand small{display:block;opacity:.75;font-size:.8rem;font-weight:400}
+.chip{background:rgba(255,255,255,.14);padding:5px 12px;border-radius:99px;font-size:.88rem}
+h1,h2,h3{margin:0 0 8px;line-height:1.35}
+/* login */
+.login{display:grid;grid-template-columns:1.1fr 1fr;gap:22px;align-items:center;min-height:calc(100vh - 32px)}
+.hero{padding:10px 6px}
+.hero .tag{display:inline-block;background:var(--ink);color:#fff;border-radius:99px;padding:4px 14px;font-size:.85rem;margin-bottom:12px}
+.hero h1{font-size:2.1rem;font-weight:800}
+.hero h1 span{color:var(--teal)}
+.hero p{color:var(--ink2);font-size:1.02rem;max-width:520px}
+.hero svg{width:100%;max-width:470px;margin-top:8px}
+.hero .trace{stroke-dasharray:640;stroke-dashoffset:640;animation:draw 3.2s .3s ease forwards}
+.hero .dot{offset-path:path('M20 150 C 90 150, 120 140, 170 100 S 260 20, 330 20');animation:go 3.2s .3s ease forwards;offset-distance:0%}
+@keyframes draw{to{stroke-dashoffset:0}}@keyframes go{to{offset-distance:100%}}
+.form{padding:26px}
+.form h2{font-size:1.4rem}
+label{display:block;font-weight:700;margin:14px 0 5px}
+input[type=text],input[type=tel]{width:100%;font:inherit;padding:12px 14px;border:1.8px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+input:focus{outline:3px solid rgba(14,124,134,.25);border-color:var(--teal)}
+.hint{font-size:.85rem;color:var(--ink2)}
+.err{color:var(--bad);font-weight:700;margin-top:10px;min-height:1.4em}
+/* home */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat{padding:12px 14px;text-align:center}
+.stat b{display:block;font-size:1.6rem;font-weight:800;color:var(--teal)}
+.stat span{font-size:.85rem;color:var(--ink2)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.scard{padding:16px 18px;position:relative;overflow:hidden;border-top:6px solid var(--c)}
+.scard .num{position:absolute;left:12px;top:4px;font-size:3.6rem;font-weight:800;color:var(--c);opacity:.13;line-height:1}
+.scard h3{font-size:1.08rem;padding-left:44px}
+.sum{margin:0 0 10px;background:#f6f9fc;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:.88rem}.sum summary{cursor:pointer;font-weight:700;color:var(--ink)}.sum ul{margin:6px 0 2px;padding-inline-start:18px;line-height:1.7}.exm{margin:6px 0;line-height:1.7}.eq{direction:ltr;text-align:center;background:#fff;border:1px dashed #9db4d3;border-radius:8px;padding:6px 8px;margin:4px 0;font-family:"Cambria Math","Times New Roman",serif;font-size:1rem;color:#10264a;overflow-x:auto;white-space:nowrap}
+.scard .meta{color:var(--ink2);font-size:.88rem;margin-bottom:10px}
+.scard .row{display:flex;gap:8px;flex-wrap:wrap}
+.scard .best{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px}
+.pill{font-size:.78rem;padding:2px 10px;border-radius:99px;background:#eef3f4;color:var(--ink2);border:1px solid var(--line)}
+.pill.good{background:var(--okbg);color:var(--ok);border-color:#b7e1c4}
+.final{margin-top:14px;padding:20px;background:linear-gradient(135deg,var(--ink),#1c3d78);color:#fff;border:0;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.final h3{font-size:1.3rem;margin:0}.final p{margin:2px 0 0;opacity:.85}
+.final .grow{flex:1;min-width:220px}
+.foot{margin:22px 0 8px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.credit{text-align:center;color:var(--ink2);font-size:.88rem;margin:10px 0 24px}
+.credit a{color:var(--teal);font-weight:700;text-decoration:none}
+/* quiz */
+.qbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.qbar .t{font-weight:800;flex:1;min-width:180px}
+.timer{font-variant-numeric:tabular-nums;direction:ltr;background:var(--ink);color:#fff;padding:3px 12px;border-radius:99px;font-weight:700}
+.timer.low{background:var(--bad);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.6}}
+.prog{height:9px;background:#e4dfcc;border-radius:99px;overflow:hidden;margin-bottom:14px}
+.prog i{display:block;height:100%;background:var(--c,var(--teal));border-radius:99px;transition:width .35s}
+.qcard{padding:20px}
+.qcard.in{animation:in .3s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.qn{display:inline-block;background:var(--c,var(--teal));color:#fff;border-radius:8px;padding:0 10px;font-weight:800;margin-bottom:8px;font-size:.9rem}
+.qt{font-size:1.2rem;font-weight:700;margin-bottom:12px}
+.fig{background:#fffdf6;border:1px dashed var(--line);border-radius:12px;padding:8px;margin:6px 0 14px;max-width:440px}
+.fig svg{width:100%;height:auto;direction:ltr;display:block}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:right;width:100%;background:#fff;border:2px solid var(--line);border-radius:14px;padding:11px 14px;font-size:1.05rem;color:var(--ink);transition:border-color .12s,background .12s,transform .1s}
+.opt:hover{border-color:var(--teal);background:#f3fafb}
+.opt .l{flex:none;width:34px;height:34px;border-radius:50%;background:#eef3f4;display:grid;place-items:center;font-weight:800}
+.opt.sel{border-color:var(--teal);background:#e6f5f6}.opt.sel .l{background:var(--teal);color:#fff}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}.opt.ok .l{background:var(--ok);color:#fff}
+.opt.no{border-color:var(--bad);background:var(--badbg)}.opt.no .l{background:var(--bad);color:#fff}
+.opt.lock{pointer-events:none}
+.fb{margin-top:14px;border-radius:14px;padding:13px 16px;animation:in .3s}
+.fb.ok{background:var(--okbg);border:1.5px solid #9ed3ae}.fb.no{background:var(--badbg);border:1.5px solid #eeb0b0}
+.fb b.h{display:block;font-size:1.05rem;margin-bottom:2px}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:16px;flex-wrap:wrap}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.dots button{width:34px;height:34px;border-radius:9px;border:1.5px solid var(--line);background:#fff;font-weight:700;color:var(--ink)}
+.dots button.done{background:#d9eef0;border-color:var(--teal)}
+.dots button.cur{background:var(--ink);color:#fff;border-color:var(--ink)}
+/* result */
+.res{padding:24px;text-align:center}
+.ring{width:170px;height:170px;margin:4px auto 6px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .c{position:absolute;inset:0;display:grid;place-items:center;font-size:2.2rem;font-weight:800}
+.ring .c small{display:block;font-size:.85rem;font-weight:500;color:var(--ink2);margin-top:-8px}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.kv div{background:#f4f1e6;border-radius:12px;padding:8px}.kv b{display:block;font-size:1.25rem}.kv span{font-size:.82rem;color:var(--ink2)}
+.msg{font-size:1.15rem;font-weight:700;margin:8px 0}
+.medal{display:inline-flex;align-items:center;gap:8px;background:#fff6dd;border:1.5px solid #f0cf72;color:#7a5200;padding:6px 16px;border-radius:99px;font-weight:800;margin:6px 0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.rv{margin-top:18px;text-align:right}
+.rvi{padding:14px 16px;margin-bottom:10px;border-right:6px solid var(--line)}
+.rvi.ok{border-right-color:var(--ok)}.rvi.no{border-right-color:var(--bad)}
+.rvi .q{font-weight:700;margin-bottom:6px}
+.rvi .ans{font-size:.95rem}
+.rvi .ex{margin-top:6px;color:var(--ink2);font-size:.95rem}
+.tag2{display:inline-block;font-size:.78rem;padding:1px 9px;border-radius:99px;margin-left:6px;font-weight:700}
+.tag2.ok{background:var(--okbg);color:var(--ok)}.tag2.no{background:var(--badbg);color:var(--bad)}.tag2.sk{background:#eee;color:#555}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(10,24,48,.55);display:grid;place-items:center;padding:16px;z-index:50}
+.modal{background:#fff;border-radius:18px;padding:22px;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);animation:in .25s}
+.modal h3{font-size:1.25rem}
+.modal ul{padding-right:20px;margin:8px 0}
+.chk{display:flex;gap:8px;align-items:center;font-weight:500;margin:12px 0}
+.chk input{width:20px;height:20px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 20px;border-radius:99px;z-index:90;font-weight:700;animation:in .25s}
+/* certificate */
+#cert{display:none}
+#cert.show{display:block;position:fixed;inset:0;z-index:80;background:rgba(10,24,48,.7);overflow:auto;padding:16px}
+.certbox{max-width:900px;margin:0 auto}
+.certbar{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+.cpage{background:#fffdf5;border:14px double #b8892b;padding:34px 40px;text-align:center;color:#2a2210;position:relative;min-height:520px;display:flex;flex-direction:column;justify-content:center}
+.cpage h1{font-size:2.6rem;color:#8a5f00;margin:0 0 6px;font-weight:800}
+.cpage .nm{font-size:2.1rem;font-weight:800;border-bottom:2px solid #b8892b;display:inline-block;padding:0 26px;margin:8px auto 14px;color:var(--ink)}
+.cpage p{font-size:1.15rem;margin:6px 0}
+.cpage .sig{display:flex;justify-content:space-around;margin-top:26px;font-size:1rem}
+.cpage .sig div{min-width:200px;border-top:1.5px solid #8a7a50;padding-top:6px}
+@media print{
+  body{background:#fff!important}
+  body>*:not(#cert){display:none!important}
+  #cert.show{position:static;background:none;padding:0;overflow:visible}
+  .certbar{display:none}
+  .cpage{min-height:0;height:182mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{size:A4 landscape;margin:10mm}
+}
+@media(max-width:720px){
+  .login{grid-template-columns:1fr;min-height:0;padding-top:10px}
+  .hero h1{font-size:1.6rem}
+  .grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .qt{font-size:1.08rem}
+  .kv{grid-template-columns:repeat(3,1fr)}
+  .cpage{padding:20px 14px}.cpage h1{font-size:1.8rem}.cpage .nm{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div id="cert"></div>
+<script>
+const M=(q,c,w,e)=>({q,o:[c,...w],e});
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const P=a=>a[R(0,a.length-1)];
+const f=x=>String(+(+x).toFixed(3));
+const GQ=(q,c,cands,e,u)=>{const sfx=u?' '+u:'';const seen=new Set([f(c)]),w=[];
+  for(const x of cands){const s=f(x);if(isFinite(x)&&x>0&&!seen.has(s)){seen.add(s);w.push(s)}}
+  for(let k=2;w.length<3&&k<60;k++){const s=f((c||1)*k+k/10);if(!seen.has(s)){seen.add(s);w.push(s)}}
+  return M(q,f(c)+sfx,w.slice(0,3).map(s=>s+sfx),e)};
+const SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+const sup=n=>String(n).split('').map(c=>SUP[c]).join('');
+const RT='mol/(L·s)';
+const D={};
+/* ===== 1 متوسط سرعة التفاعل ===== */
+D.s1=[
+()=>{const r=R(1,5)*0.01,t=R(2,6)*5,d=r*t,c1=d+R(1,5)*0.1;return GQ(`انخفض تركيز مادة متفاعلة من ${f(c1)} M إلى ${f(c1-d)} M خلال ${t} s. متوسط سرعة التفاعل`,r,[d,r*t*10,r*10],`السرعة = ΔC ÷ Δt = ${f(d)} ÷ ${t} = ${f(r)} ${RT}.`,RT)},
+()=>{const a=R(1,6)*0.02;return GQ(`في التفاعل N₂(g) + 3H₂(g) → 2NH₃(g) إذا كانت سرعة تكوّن NH₃ تساوي ${f(a)} ${RT} فإن سرعة استهلاك H₂`,a*1.5,[a,a*3,a*0.5],`النسبة H₂ : NH₃ = 3 : 2 ⇒ ${f(a)} × 3/2 = ${f(a*1.5)}.`,RT)},
+()=>{const b=R(1,6)*0.02;return GQ(`في التفاعل N₂(g) + 3H₂(g) → 2NH₃(g) إذا كانت سرعة استهلاك N₂ تساوي ${f(b)} ${RT} فإن سرعة تكوّن NH₃`,b*2,[b,b*3,b*0.5],`النسبة NH₃ : N₂ = 2 : 1 ⇒ ${f(2*b)}.`,RT)},
+()=>{const r=R(1,6)*0.01;return GQ(`في التفاعل 2H₂O₂(aq) → 2H₂O(l) + O₂(g) إذا كانت سرعة تكوّن O₂ تساوي ${f(r)} ${RT} فإن سرعة تفكك H₂O₂`,r*2,[r,r*4,r*0.5],`النسبة H₂O₂ : O₂ = 2 : 1 ⇒ ${f(2*r)}.`,RT)},
+()=>{const r=R(1,6)*0.01;return GQ(`في التفاعل 2N₂O₅(g) → 4NO₂(g) + O₂(g) إذا كانت سرعة استهلاك N₂O₅ تساوي ${f(r)} ${RT} فإن سرعة تكوّن NO₂`,r*2,[r,r*4,r*0.5],`النسبة NO₂ : N₂O₅ = 4 : 2 ⇒ ${f(2*r)}.`,RT)},
+()=>{const V=P([1,2,4]),t=R(2,5)*10,r=R(1,5)*0.01,n=r*V*t;return GQ(`استُهلك ${f(n)} mol من مادة متفاعلة في وعاء حجمه ${V} L خلال ${t} s. متوسط السرعة`,r,[n/t,n*V/t,n*t/V],`السرعة = n ÷ (V × t) = ${f(n)} ÷ (${V} × ${t}) = ${f(r)}.`,RT)},
+M('سرعة التفاعل الكيميائي هي','التغير في تركيز المتفاعلات أو النواتج في وحدة الزمن',['التغير في درجة الحرارة','كتلة النواتج','حجم الوعاء'],'تقاس بوحدة mol/(L·s).'),
+M('وحدة سرعة التفاعل','mol/(L·s)',['mol·s','L/mol','s/mol'],'مولار لكل ثانية (M/s).'),
+M('يُحسب متوسط سرعة التفاعل من العلاقة','−Δ[متفاعل] ÷ Δt أو +Δ[ناتج] ÷ Δt',['Δt ÷ Δ[متفاعل]','Δ[متفاعل] × Δt','Δ[متفاعل] − Δt'],'الإشارة السالبة لأن تركيز المتفاعل يقل.'),
+M('الإشارة السالبة في قانون السرعة لمتفاعل تعني أن','تركيزه يقل مع الزمن وتبقى السرعة موجبة',['السرعة سالبة','التفاعل عكسي','لا يتفاعل'],'السرعة كمية موجبة دائماً.'),
+M('كلما تقدم التفاعل مع الزمن فإن سرعته غالباً','تقل',['تزداد','تبقى ثابتة','تنعدم فوراً'],'ينقص تركيز المتفاعلات.'),
+M('ميل المنحنى (تركيز – زمن) عند لحظة معينة يمثل','السرعة اللحظية',['متوسط السرعة','الثابت k','الطاقة'],'ميل المماس.'),
+M('متوسط السرعة يختلف عن السرعة اللحظية لأن الأولى','تحسب خلال فترة زمنية والثانية عند لحظة محددة',['تحسب عند لحظة','دائماً أكبر','لا وحدة لها'],'تعريفهما.'),
+M('تتساوى سرعة التفاعل المعبَّر عنها بدلالة مادة وأخرى بعد القسمة على','معامل كل مادة في المعادلة الموزونة',['كتلتها المولية','حجمها','عدد ذراتها'],'مثال: −Δ[N₂]/Δt = −(1/3)Δ[H₂]/Δt.'),
+M('من طرق قياس سرعة التفاعل الذي ينتج غازاً','قياس حجم الغاز المتصاعد مع الزمن',['قياس الكتلة المولية','قياس الكثافة','قياس لون الورق'],'مثل Mg + HCl.'),
+M('المعادلة الصحيحة للتعبير عن سرعة التفاعل A → B','Rate = −Δ[A]/Δt = +Δ[B]/Δt',['Rate = Δ[A]/Δt = −Δ[B]/Δt','Rate = Δt/Δ[A]','Rate = [A] × [B]'],'تستهلك A وتتكون B.'),
+M('إذا كان تركيز مادة 0.8 M ثم صار 0.2 M خلال 30 s فإن التغير في التركيز','0.6 M',['1.0 M','0.2 M','−0.6 M كمية موجبة'],'0.8 − 0.2.'),
+M('إذا تضاعفت كمية المادة المتفاعلة المستهلكة في الزمن نفسه فإن متوسط السرعة','تتضاعف',['تقل للنصف','لا تتغير','تصبح صفراً'],'ΔC أكبر خلال Δt نفسه.'),
+M('تفاعل ينتهي خلال ثوانٍ مقارنة بآخر ينتهي في أيام','الأول أسرع',['الأول أبطأ','لهما السرعة نفسها','لا يمكن المقارنة'],'السرعة تقاس بالزمن اللازم.'),
+M('من أمثلة التفاعلات السريعة جداً','تفاعل التعادل بين حمض وقاعدة',['صدأ الحديد','تحلل المواد العضوية','تكوّن النفط'],'تفاعلات أيونية فورية.'),
+M('من أمثلة التفاعلات البطيئة','صدأ الحديد',['الانفجار','احتراق الثقاب','تفاعل الصوديوم مع الماء'],'يحتاج أياماً وشهوراً.'),
+M('للتفاعل A → 2B إذا كانت سرعة اختفاء A هي 0.1 M/s فإن سرعة تكوّن B','0.2 M/s',['0.1 M/s','0.05 M/s','0.4 M/s'],'تتضاعف للنسبة 2 : 1.'),
+M('للتفاعل 2A → B إذا كانت سرعة تكوّن B هي 0.1 M/s فإن سرعة اختفاء A','0.2 M/s',['0.1 M/s','0.05 M/s','0.4 M/s'],'2 : 1.'),
+M('لمعرفة سرعة التفاعل نحتاج إلى قياس','تغير التركيز مع الزمن',['درجة الانصهار','كتلة الوعاء','لون المحلول فقط'],'تعريف السرعة.'),
+M('أي العبارات الآتية خاطئة عن سرعة التفاعل؟','قد تكون السرعة سالبة',['تقاس بـ mol/(L·s)','تعتمد على الزمن','تُحسب من تغير التركيز'],'السرعة موجبة دائماً.'),
+M('إذا لم يتغير تركيز أي مادة مع الزمن فهذا يعني أن','التفاعل وصل إلى حالة اتزان أو توقف',['السرعة كبيرة جداً','لا يوجد وعاء','التفاعل بدأ للتو'],'لا تغير في التركيز.'),
+M('في التفاعل N₂(g) + O₂(g) → 2NO(g) إذا كان [NO] يزداد 0.4 M/s فإن [N₂] ينقص بمعدل','0.2 M/s',['0.4 M/s','0.8 M/s','0.1 M/s'],'النسبة N₂ : NO = 1 : 2.'),
+M('وحدة قياس التركيز المولاري','mol/L',['g/mL','mol/s','L/mol'],'M.'),
+M('التفاعل الذي تقل سرعته بمرور الزمن يكون سببه','نقصان تركيز المتفاعلات',['زيادة الضغط الجوي','نقصان الكتلة المولية','وجود الوعاء'],'تقل التصادمات.')
+];
+/* ===== 2 العوامل المؤثرة على سرعة التفاعل ===== */
+D.s2=[
+()=>{const r=R(1,6)*0.05,k=P([1,2,3]);return GQ(`سرعة تفاعل ${f(r)} M/s عند 20 °C. إذا تضاعفت السرعة لكل ارتفاع 10 °C فإن سرعته عند ${20+10*k} °C`,r*Math.pow(2,k),[r*2*k,r*10*k,r/Math.pow(2,k)],`تتضاعف ${k} مرة: ${f(r)} × 2${sup(k)} = ${f(r*Math.pow(2,k))} M/s.`,'M/s')},
+()=>{const Ef=R(5,12)*10,dH=P([-1,1])*R(1,4)*10;return GQ(`طاقة التنشيط للتفاعل الأمامي ${Ef} kJ وΔH = ${dH>0?'+':''}${dH} kJ. طاقة التنشيط للتفاعل العكسي`,Ef-dH,[Ef+dH,Ef,Math.abs(dH)],`Ea(عكسي) = Ea(أمامي) − ΔH = ${Ef} − (${dH}) = ${Ef-dH} kJ.`,'kJ')},
+()=>{const Ea=R(6,12)*10,x=R(1,4)*10;return GQ(`طاقة تنشيط تفاعل ${Ea} kJ. أُضيف حفاز خفضها بمقدار ${x} kJ. طاقة التنشيط الجديدة`,Ea-x,[Ea+x,Ea,x],`${Ea} − ${x} = ${Ea-x} kJ.`,'kJ')},
+()=>{const k=P([2,3,4]);return GQ(`تفاعل من الرتبة الأولى في A. عند مضاعفة التركيز ${k} مرات تصبح السرعة`,k,[k*k,1,k/2],`rate ∝ [A] ⇒ تصبح ${k} أمثالها.`,'مرات')},
+M('تنص نظرية التصادم على أن التفاعل يحدث عندما','تتصادم الجسيمات بطاقة كافية وبالاتجاه الصحيح',['تتجاور الجسيمات فقط','ترتفع الحرارة فقط','تتحرك ببطء'],'تصادمات فعالة.'),
+M('التصادم الفعال هو التصادم الذي','يمتلك طاقة ≥ طاقة التنشيط وبتوجيه مناسب',['يحدث بطاقة منخفضة','يتم دون اتصال','بين أي جسيمين'],'ينتج النواتج.'),
+M('طاقة التنشيط هي','أقل طاقة لازمة لبدء التفاعل',['طاقة النواتج','الطاقة الناتجة','طاقة الحفاز'],'حاجز الطاقة.'),
+M('المعقد المنشَّط هو','حالة انتقالية غير مستقرة عند قمة حاجز الطاقة',['ناتج التفاعل','متفاعل','حفاز'],'ذو أعلى طاقة.'),
+M('زيادة مساحة سطح المتفاعل الصلب (التفتيت) تؤدي إلى','زيادة سرعة التفاعل',['نقصانها','عدم تأثيرها','توقف التفاعل'],'تزداد التصادمات.'),
+M('أيهما يتفاعل أسرع مع حمض HCl؟','مسحوق Mg',['شريط Mg','قطعة Mg كبيرة','كلها بنفس السرعة'],'مساحة سطح أكبر.'),
+M('زيادة تركيز المتفاعلات تؤدي إلى','زيادة عدد التصادمات فتزداد السرعة',['نقصان السرعة','زيادة طاقة التنشيط','عدم التغير'],'جسيمات أكثر في الحجم نفسه.'),
+M('رفع درجة الحرارة يزيد سرعة التفاعل لأنه','يزيد عدد الجسيمات ذات الطاقة ≥ Ea',['يخفض طاقة التنشيط','يزيد الكتلة','يقلل التصادمات'],'توزيع ماكسويل–بولتزمان.'),
+M('الحفاز هو مادة','تزيد سرعة التفاعل ولا تُستهلك فيه',['تُستهلك وتزيد السرعة','تقلل السرعة','تتغير كتلتها كلياً'],'يخفض طاقة التنشيط.'),
+M('الحفاز يعمل على','خفض طاقة التنشيط',['رفع طاقة التنشيط','رفع الحرارة','زيادة تركيز النواتج'],'مسار بديل.'),
+M('إضافة حفاز إلى تفاعل','لا تغير ΔH',['تغير ΔH','تجعل التفاعل ماصاً','توقف التفاعل'],'يؤثر في السرعة فقط.'),
+M('الحفاز في تحلل H₂O₂ إلى H₂O وO₂ يمكن أن يكون','MnO₂',['NaCl','Na','H₂'],'حفاز شائع.'),
+M('تأثير زيادة الضغط على سرعة تفاعل الغازات','تزداد لأن التركيز يزداد',['تقل','لا تتأثر دائماً','تصبح صفراً'],'جسيمات أقرب.'),
+M('طبيعة المتفاعلات تؤثر في السرعة؛ فتفاعلات الأيونات في المحلول غالباً','أسرع من التفاعلات التي تتطلب كسر روابط تساهمية',['أبطأ دائماً','لا فرق','لا تحدث'],'لا حاجة لكسر روابط.'),
+M('في مخطط طاقة التفاعل الطارد للحرارة تكون طاقة النواتج','أقل من طاقة المتفاعلات',['أكبر','مساوية','صفراً'],'ΔH < 0.'),
+M('في مخطط طاقة التفاعل الماص للحرارة تكون طاقة النواتج','أكبر من طاقة المتفاعلات',['أقل','مساوية','سالبة دائماً'],'ΔH > 0.'),
+M('ارتفاع قمة المنحنى عن مستوى المتفاعلات يمثل','طاقة التنشيط',['ΔH','طاقة النواتج','الحفاز'],'Ea.'),
+M('الفرق بين مستوى النواتج والمتفاعلات يمثل','ΔH',['Ea','Ea للحفاز','الزمن'],'تغير المحتوى الحراري.'),
+M('عند خفض درجة الحرارة فإن عدد الجسيمات ذات الطاقة الكافية','يقل',['يزداد','لا يتغير','يصبح مالانهاية'],'تقل السرعة.'),
+M('الحفاز المتجانس هو الحفاز الذي','يكون في الحالة نفسها للمتفاعلات',['حالته مختلفة','لا يذوب','صلب دائماً'],'مثل حفاز في محلول.'),
+M('الحفاز غير المتجانس','حالته تختلف عن حالة المتفاعلات',['في الحالة نفسها','غاز دائماً','سائل دائماً'],'مثل Pt الصلب مع غازات.'),
+M('أي العوامل الآتية لا يؤثر في سرعة التفاعل؟','لون وعاء التفاعل',['درجة الحرارة','التركيز','الحفاز'],'ليست من العوامل.'),
+M('الحفاز في التفاعل الطارد يؤثر على الاتجاهين الأمامي والعكسي','بالدرجة نفسها',['الأمامي فقط','العكسي فقط','لا يؤثر'],'يخفض Ea للاتجاهين.')
+];
+/* ===== 3 قانون سرعة التفاعل ===== */
+D.s3=[
+()=>{const m=R(1,2),n=R(1,2),k=P([0.5,1,2,3,4,5]),A=R(1,3),B=R(1,3);const r=k*Math.pow(A,m)*Math.pow(B,n);return GQ(`سرعة تفاعل = k[A]${sup(m)}[B]${sup(n)} حيث k = ${f(k)} و[A] = ${A} M و[B] = ${B} M. السرعة`,r,[k*A*B,k*(A+B),r*2],`Rate = ${f(k)} × ${A}${sup(m)} × ${B}${sup(n)} = ${f(r)} M/s.`,'M/s')},
+()=>{const m=R(1,3),n=R(0,2);return GQ(`سرعة تفاعل = k[A]${sup(m)}[B]${n===0?'⁰':sup(n)}. عند مضاعفة [A] مرتين تصبح السرعة`,Math.pow(2,m),[2*m,m,Math.pow(2,m+1)],`تتضاعف ${m} مرات: 2${sup(m)} = ${Math.pow(2,m)}.`,'أمثال')},
+()=>{const m=R(1,2),n=R(1,2);return GQ(`سرعة تفاعل = k[A]${sup(m)}[B]${sup(n)}. عند مضاعفة [A] وتثليث [B] معاً تصبح السرعة`,Math.pow(2,m)*Math.pow(3,n),[2*m*3*n,Math.pow(2,m)+Math.pow(3,n),6],`2${sup(m)} × 3${sup(n)} = ${Math.pow(2,m)*Math.pow(3,n)}.`,'أمثال')},
+()=>{const m=P([0,1,2]),k=P([2,3]);return M(`عند مضاعفة تركيز A ${k} مرات ازدادت السرعة ${Math.pow(k,m)} مرة. رتبة التفاعل بالنسبة إلى A`,m===0?'صفر':String(m),['صفر','1','2','3'].filter(x=>x!==(m===0?'صفر':String(m))).slice(0,3),`${k}^m = ${Math.pow(k,m)} ⇒ m = ${m}.`)},
+()=>{const m=R(1,2),A=R(1,4)*0.5,k=P([2,4,5]);const r=k*Math.pow(A,m);return GQ(`سرعة تفاعل ${f(r)} M/s وتركيز A هو ${f(A)} M، والتفاعل من الرتبة ${m} في A. قيمة k`,k,[r/A/A/A,r*A,r+A],`k = rate ÷ [A]${sup(m)} = ${f(r)} ÷ ${f(Math.pow(A,m))} = ${k}.`)},
+M('قانون سرعة التفاعل aA + bB → نواتج يكتب','Rate = k[A]ᵐ[B]ⁿ',['Rate = k[A]ᵃ[B]ᵇ دائماً','Rate = k/[A][B]','Rate = [A] + [B]'],'الأسس تحدد تجريبياً (m وn) وليس بالضرورة معاملات المعادلة.'),
+M('الأسس في قانون السرعة تحدد','تجريبياً',['من المعاملات دائماً','من الكتلة','من الحجم'],'قد تختلف عن معاملات المعادلة.'),
+M('الرتبة الكلية للتفاعل =','مجموع رتب المتفاعلات في قانون السرعة',['حاصل ضربها','عدد المتفاعلات','معامل الناتج'],'m + n.'),
+M('رتبة التفاعل بالنسبة لمادة معينة هي','أس تركيزها في قانون السرعة',['معاملها في المعادلة دائماً','كتلتها','عدد ذراتها'],'تحدد تجريبياً.'),
+M('إذا كانت السرعة لا تعتمد على تركيز المتفاعل فإن رتبته','صفر',['1','2','3'],'rate = k.'),
+M('إذا تضاعفت السرعة بمضاعفة [A] فإن رتبة A','الأولى',['الصفرية','الثانية','الثالثة'],'2¹ = 2.'),
+M('إذا صارت السرعة أربعة أمثالها بمضاعفة [A] فإن رتبة A','الثانية',['الأولى','الصفرية','الثالثة'],'2² = 4.'),
+M('وحدة k لتفاعل من الرتبة الأولى','s⁻¹',['L/(mol·s)','mol/(L·s)','L²/(mol²·s)'],'rate = k[A].'),
+M('وحدة k لتفاعل من الرتبة الثانية','L/(mol·s)',['s⁻¹','mol/(L·s)','L²/(mol²·s)'],'M⁻¹s⁻¹.'),
+M('وحدة k لتفاعل من الرتبة الصفرية','mol/(L·s)',['s⁻¹','L/(mol·s)','L²/(mol²·s)'],'rate = k.'),
+M('ثابت سرعة التفاعل k يعتمد على','درجة الحرارة ووجود الحفاز',['تركيز المتفاعلات','الزمن','حجم الوعاء'],'لا يتغير بتغير التركيز.'),
+M('قانون سرعة التفاعل 2NO(g) + O₂(g) → 2NO₂(g) هو Rate = k[NO]²[O₂]. الرتبة الكلية','3',['2','1','4'],'2 + 1.'),
+M('في المثال السابق عند مضاعفة [NO] تصبح السرعة','4 أمثالها',['مثلها','ضعفها','8 أمثالها'],'رتبة NO = 2.'),
+M('في المثال السابق عند مضاعفة [O₂] تصبح السرعة','ضعفها',['4 أمثالها','مثلها','نصفها'],'رتبة O₂ = 1.'),
+M('الخطوة البطيئة في آلية التفاعل تسمى','الخطوة المحددة للسرعة',['الخطوة السريعة','الخطوة النهائية','الحفاز'],'تتحكم في السرعة الكلية.'),
+M('الوسيط (المركب الوسيط) في آلية التفاعل هو مادة','تتكون في خطوة وتُستهلك في خطوة لاحقة',['موجودة في المعادلة الكلية','حفاز','ناتج نهائي'],'لا تظهر في المعادلة الكلية.'),
+M('الآلية التفاعلية هي','سلسلة الخطوات الأولية التي تحوّل المتفاعلات إلى نواتج',['خطوة واحدة','حجم التفاعل','طاقة النواتج'],'مجموعها المعادلة الكلية.'),
+M('تحدد رتبة التفاعل من','التجارب العملية (طريقة السرعات الابتدائية)',['المعادلة الموزونة فقط','كتلة المتفاعلات','درجة غليان النواتج'],'قياس السرعة لتراكيز مختلفة.'),
+M('في تجربتين ثُبّت فيهما [B] وتضاعف [A] فتضاعفت السرعة. رتبة A','1',['0','2','3'],'تناسب طردي.'),
+M('إذا بقيت السرعة ثابتة رغم مضاعفة [B] فإن رتبة B','صفر',['1','2','3'],'لا تأثير.'),
+M('تفاعل Rate = k[A]. عند تقليل [A] إلى النصف تصبح السرعة','النصف',['الضعف','الربع','لا تتغير'],'رتبة أولى.'),
+M('تفاعل Rate = k[A]². عند تقليل [A] إلى النصف تصبح السرعة','الربع',['النصف','الضعف','لا تتغير'],'(1/2)² = 1/4.')
+];
+/* ===== 4 التفاعلات الكيميائية والاتزان ===== */
+D.s4=[
+()=>{const c=P([2,4]),a=P([1,2]),b=P([1,2]);const K=c*c/(a*b*b*b);return GQ(`عند الاتزان N₂(g) + 3H₂(g) ⇌ 2NH₃(g): [N₂] = ${a} M و[H₂] = ${b} M و[NH₃] = ${c} M. قيمة Kc`,K,[c/(a*b),c*c/(a*b),(c*c)/(a+b)],`Kc = [NH₃]² ÷ ([N₂][H₂]³) = ${c*c} ÷ (${a} × ${b*b*b}) = ${f(K)}.`)},
+()=>{const A=P([1,2,4]),B=P([1,2,4]),C=P([2,4,8]),Dd=P([2,4,8]);const K=C*Dd/(A*B);return GQ(`عند الاتزان A(g) + B(g) ⇌ C(g) + D(g): [A] = ${A} M و[B] = ${B} M و[C] = ${C} M و[D] = ${Dd} M. قيمة Kc`,K,[(A*B)/(C*Dd),C+Dd,K*2],`Kc = [C][D] ÷ ([A][B]) = ${C*Dd} ÷ ${A*B} = ${f(K)}.`)},
+()=>{const a=P([2,4]),s=P([1,2]),o=P([1,2]);const K=a*a/(s*s*o);return GQ(`عند الاتزان 2SO₂(g) + O₂(g) ⇌ 2SO₃(g): [SO₂] = ${s} M و[O₂] = ${o} M و[SO₃] = ${a} M. قيمة Kc`,K,[a/(s*o),a*a/(s*o),s*s*o/(a*a)],`Kc = [SO₃]² ÷ ([SO₂]²[O₂]) = ${a*a} ÷ ${s*s*o} = ${f(K)}.`)},
+()=>{const K=P([2,4,5,10,0.5,0.25]);return GQ(`قيمة Kc لتفاعل ما تساوي ${K}. قيمة Kc للتفاعل العكسي`,1/K,[K*K,K,1/(K*K)],`Kc(عكسي) = 1 ÷ Kc = ${f(1/K)}.`)},
+()=>{const K=P([2,3,4,5]);return GQ(`قيمة Kc لتفاعل ما تساوي ${K}. قيمة Kc عند مضاعفة معاملات المعادلة (×2)`,K*K,[2*K,K,K/2],`Kc الجديد = (Kc)² = ${K*K}.`)},
+()=>{const K=P([2,4,5,10]),A=P([0.1,0.2,0.5,1]);return GQ(`للتفاعل A(g) ⇌ B(g) قيمة Kc = ${K}. إذا كان [A] عند الاتزان ${A} M فإن [B]`,K*A,[A/K,K+A,K*A*K],`[B] = Kc × [A] = ${f(K*A)} M.`,'M')},
+()=>{const K=P([2,4,8]),Q=P([1,2,4,8,16]);const ans=Q<K?'نحو اليمين (النواتج)':Q>K?'نحو اليسار (المتفاعلات)':'في حالة اتزان';return M(`تفاعل Kc = ${K} وكان Qc = ${Q} في لحظة ما. يتجه التفاعل`,ans,['نحو اليمين (النواتج)','نحو اليسار (المتفاعلات)','في حالة اتزان','يتوقف التفاعل'].filter(x=>x!==ans),`${Q<K?'Qc < Kc ⇒ يتجه نحو النواتج':Q>K?'Qc > Kc ⇒ يتجه نحو المتفاعلات':'Qc = Kc ⇒ اتزان'}.`)},
+M('التفاعل العكسي هو تفاعل','يسير في الاتجاهين الأمامي والعكسي',['يسير في اتجاه واحد','لا يحتاج حرارة','ينتهي دائماً'],'يُمثَّل بالسهمين ⇌.'),
+M('الاتزان الكيميائي يحدث عندما','تتساوى سرعة التفاعل الأمامي مع العكسي',['تنتهي المتفاعلات','تتساوى التراكيز','يتوقف التفاعل تماماً'],'اتزان ديناميكي.'),
+M('عند الاتزان الكيميائي تكون تراكيز المواد','ثابتة (لا تتغير) وليست بالضرورة متساوية',['متساوية دائماً','صفراً','تتزايد'],'السرعتان متساويتان.'),
+M('الاتزان الكيميائي يحدث في نظام','مغلق',['مفتوح','معزول عن الحرارة فقط','لا يشترط'],'لا تفقد مواد.'),
+M('الاتزان الكيميائي اتزان ديناميكي لأن','التفاعلين الأمامي والعكسي مستمران بالسرعة نفسها',['لا حركة فيه','المتفاعلات تنتهي','الحرارة تنعدم'],'ليس توقفاً.'),
+M('عبارة ثابت الاتزان للتفاعل 2NO₂(g) ⇌ N₂O₄(g)','Kc = [N₂O₄] / [NO₂]²',['Kc = [NO₂]² / [N₂O₄]','Kc = [N₂O₄] × [NO₂]²','Kc = [NO₂] / [N₂O₄]'],'النواتج على المتفاعلات مرفوعة لمعاملاتها.'),
+M('عبارة ثابت الاتزان للتفاعل CaCO₃(s) ⇌ CaO(s) + CO₂(g)','Kc = [CO₂]',['Kc = [CaO][CO₂] / [CaCO₃]','Kc = [CaCO₃]','Kc = [CaO]'],'لا تدخل المواد الصلبة النقية.'),
+M('عبارة ثابت الاتزان للتفاعل Zn(s) + 2Ag⁺(aq) ⇌ Zn²⁺(aq) + 2Ag(s)','Kc = [Zn²⁺] / [Ag⁺]²',['Kc = [Zn²⁺][Ag]² / ([Zn][Ag⁺]²)','Kc = [Ag⁺]² / [Zn²⁺]','Kc = [Zn²⁺][Ag⁺]²'],'تستثنى المواد الصلبة.'),
+M('عبارة ثابت الاتزان للتفاعل H₂(g) + I₂(g) ⇌ 2HI(g)','Kc = [HI]² / ([H₂][I₂])',['Kc = [HI] / ([H₂][I₂])','Kc = [H₂][I₂] / [HI]²','Kc = 2[HI] / [H₂][I₂]'],'المعامل يصبح أساً.'),
+M('عبارة ثابت الاتزان للتفاعل CO(g) + H₂O(g) ⇌ CO₂(g) + H₂(g)','Kc = [CO₂][H₂] / ([CO][H₂O])',['Kc = [CO][H₂O] / ([CO₂][H₂])','Kc = [CO₂] / [CO]','Kc = [H₂]² / [CO]'],'جميعها غازات.'),
+M('إذا كانت Kc أكبر بكثير من 1 فإن الاتزان','يميل نحو النواتج',['يميل نحو المتفاعلات','لا يتكون ناتج','لا يحدث'],'تراكيز النواتج أكبر.'),
+M('إذا كانت Kc أصغر بكثير من 1 فإن الاتزان','يميل نحو المتفاعلات',['يميل نحو النواتج','يتوقف','لا يوجد'],'النواتج قليلة.'),
+M('تتغير قيمة ثابت الاتزان Kc بتغير','درجة الحرارة فقط',['التركيز','الضغط','الحفاز'],'ثابت عند درجة حرارة محددة.'),
+M('إذا كانت Qc < Kc فإن التفاعل يسير','نحو اليمين (تكوين النواتج)',['نحو اليسار','لا يتحرك','يتوقف'],'حتى Qc = Kc.'),
+M('إذا كانت Qc > Kc فإن التفاعل يسير','نحو اليسار (تكوين المتفاعلات)',['نحو اليمين','لا يتحرك','يتوقف'],'حتى Qc = Kc.'),
+M('إذا كانت Qc = Kc فإن النظام','في حالة اتزان',['يسير نحو النواتج','يسير نحو المتفاعلات','غير موزون'],'لا تغير.'),
+M('الاتزان المتجانس هو اتزان تكون فيه المواد','في حالة فيزيائية واحدة',['في حالات مختلفة','صلبة فقط','غازية فقط دائماً'],'مثل N₂(g) + H₂(g).'),
+M('الاتزان غير المتجانس هو اتزان تكون فيه المواد','في أكثر من حالة فيزيائية',['في حالة واحدة','كلها غازات','كلها محلول'],'مثل CaCO₃(s) ⇌ CaO(s) + CO₂(g).'),
+M('مبدأ لوشاتيليه يستخدم لـ','التنبؤ باتجاه انزياح الاتزان',['حساب السرعة','حساب الكتلة','قياس درجة الحرارة'],'قاعدة التخفيف.'),
+M('وحدة Kc تعتمد على','مجموع معاملات النواتج ومجموع معاملات المتفاعلات',['الحجم','الزمن','الكتلة'],'قد تكون بلا وحدة.')
+];
+/* ===== 5 قاعدة لوشاتيليه ===== */
+const RXN=[
+['N₂(g) + 3H₂(g) ⇌ 2NH₃(g)',-2,'طارد'],['2SO₂(g) + O₂(g) ⇌ 2SO₃(g)',-1,'طارد'],['N₂O₄(g) ⇌ 2NO₂(g)',1,'ماص'],
+['PCl₅(g) ⇌ PCl₃(g) + Cl₂(g)',1,'ماص'],['H₂(g) + I₂(g) ⇌ 2HI(g)',0,'طارد'],['2NO(g) + O₂(g) ⇌ 2NO₂(g)',-1,'طارد'],
+['CO(g) + 2H₂(g) ⇌ CH₃OH(g)',-2,'طارد'],['2NH₃(g) ⇌ N₂(g) + 3H₂(g)',2,'ماص'],['CaCO₃(s) ⇌ CaO(s) + CO₂(g)',1,'ماص'],['2CO(g) + O₂(g) ⇌ 2CO₂(g)',-1,'طارد']];
+const SH=['نحو اليمين (النواتج)','نحو اليسار (المتفاعلات)','لا يحدث انزياح','يتوقف التفاعل'];
+const mk=(q,c,e)=>M(q,c,SH.filter(x=>x!==c),e);
+D.s5=[
+()=>{const [eq,dn]=P(RXN);const ans=dn<0?SH[0]:dn>0?SH[1]:SH[2];return mk(`للتفاعل ${eq}: عند زيادة الضغط (بتقليل الحجم) في درجة حرارة ثابتة يتجه الاتزان`,ans,`يتجه نحو الجانب الأقل في عدد مولات الغاز (Δn = ${dn}).`)},
+()=>{const [eq,dn]=P(RXN);const ans=dn<0?SH[1]:dn>0?SH[0]:SH[2];return mk(`للتفاعل ${eq}: عند خفض الضغط (بزيادة الحجم) يتجه الاتزان`,ans,`يتجه نحو الجانب الأكثر في عدد مولات الغاز (Δn = ${dn}).`)},
+()=>{const [eq,,h]=P(RXN);const ans=h==='ماص'?SH[0]:SH[1];return mk(`التفاعل الأمامي ${h} للحرارة: ${eq}. عند رفع درجة الحرارة يتجه الاتزان`,ans,`رفع الحرارة يرجّح الاتجاه الماص للحرارة: ${h==='ماص'?'الأمامي':'العكسي'}.`)},
+()=>{const [eq,,h]=P(RXN);const ans=h==='ماص'?SH[1]:SH[0];return mk(`التفاعل الأمامي ${h} للحرارة: ${eq}. عند خفض درجة الحرارة يتجه الاتزان`,ans,`خفض الحرارة يرجّح الاتجاه الطارد للحرارة: ${h==='ماص'?'العكسي':'الأمامي'}.`)},
+()=>{const [eq]=P(RXN.filter(x=>x[0].indexOf('(g) +')>0));const sp=eq.split(' ⇌ ')[0].split(' + ')[0].replace(/^\d+/,'');return mk(`للتفاعل ${eq}: عند إضافة المزيد من ${sp.replace(/\(g\)/,'')} يتجه الاتزان`,SH[0],'زيادة تركيز متفاعل ترجّح التفاعل الأمامي.')},
+()=>{const [eq]=P(RXN);const pr=eq.split(' ⇌ ')[1].split(' + ').find(x=>x.includes('(g)')).replace(/^\d+/,'');return mk(`للتفاعل ${eq}: عند إضافة المزيد من ${pr.replace(/\(.\)/,'')} يتجه الاتزان`,SH[1],'زيادة تركيز ناتج ترجّح التفاعل العكسي.')},
+()=>{const [eq]=P(RXN);const pr=eq.split(' ⇌ ')[1].split(' + ').find(x=>x.includes('(g)')).replace(/^\d+/,'');return mk(`للتفاعل ${eq}: عند سحب ${pr.replace(/\(.\)/,'')} من الوعاء أولاً بأول يتجه الاتزان`,SH[0],'نقص تركيز ناتج يُرجّح التفاعل الأمامي.')},
+M('ينص مبدأ لوشاتيليه على أنه إذا أثّر مؤثر على نظام في حالة اتزان فإن النظام','ينزاح في الاتجاه الذي يخفف أثر هذا المؤثر',['ينزاح في اتجاه زيادة المؤثر','لا يتأثر','يتوقف'],'يعيد الاتزان.'),
+M('أي العوامل الآتية لا يُحدث انزياحاً في موضع الاتزان؟','إضافة حفاز',['تغيير التركيز','تغيير الضغط','تغيير درجة الحرارة'],'يسرّع الاتجاهين بالتساوي.'),
+M('الحفاز يؤثر في','زمن الوصول إلى الاتزان فقط',['قيمة Kc','موضع الاتزان','ΔH'],'لا يغير تراكيز الاتزان.'),
+M('إضافة غاز خامل (كالهيليوم) بثبات الحجم الكلي إلى مخلوط غازي متزن','لا تغير موضع الاتزان',['تزيح نحو النواتج','تزيح نحو المتفاعلات','توقف التفاعل'],'التراكيز لا تتغير.'),
+M('العامل الوحيد الذي يغير قيمة Kc','درجة الحرارة',['الضغط','التركيز','الحفاز'],'ثابت الاتزان.'),
+M('في تفاعل طارد للحرارة عند رفع الحرارة تصبح قيمة Kc','أقل',['أكبر','لا تتغير','صفراً'],'ينزاح نحو المتفاعلات.'),
+M('في تفاعل ماص للحرارة عند رفع الحرارة تصبح قيمة Kc','أكبر',['أقل','لا تتغير','صفراً'],'ينزاح نحو النواتج.'),
+M('تغيير الضغط يؤثر في الاتزان فقط إذا','اختلف عدد مولات الغاز في الطرفين',['كان التفاعل ماصاً','وُجد حفاز','كانت Kc كبيرة'],'Δn ≠ 0.'),
+M('في تفاعل N₂(g) + 3H₂(g) ⇌ 2NH₃(g) ΔH = −92 kJ يزداد إنتاج NH₃ عند','زيادة الضغط وخفض الحرارة',['خفض الضغط ورفع الحرارة','رفع الحرارة فقط','إضافة NH₃'],'4 مولات → 2 مول، والتفاعل طارد.'),
+M('لماذا تُجرى عملية هابر عند حرارة معتدلة (450 °C) رغم أنها طاردة للحرارة؟','لتحقيق سرعة مقبولة مع حصيلة معقولة',['لتقليل الضغط','لأن الحفاز يعمل بالتبريد','لأنها ماصة'],'توازن بين السرعة والحصيلة.'),
+M('في N₂O₄(g) (عديم اللون) ⇌ 2NO₂(g) (بني) ΔH > 0 يصبح اللون أغمق عند','رفع درجة الحرارة',['خفضها','زيادة الضغط','إضافة حفاز'],'ينزاح نحو NO₂.'),
+M('زيادة الضغط على اتزان N₂O₄(g) ⇌ 2NO₂(g) تجعل اللون البني','أفتح (ينزاح نحو N₂O₄)',['أغمق','لا يتغير','يختفي كلياً'],'نحو الأقل مولات.'),
+M('في H₂(g) + I₂(g) ⇌ 2HI(g) زيادة الضغط','لا تؤثر في موضع الاتزان',['تزيح نحو HI','تزيح نحو H₂','توقف التفاعل'],'Δn = 0.'),
+M('في CaCO₃(s) ⇌ CaO(s) + CO₂(g) زيادة الضغط','تزيح نحو CaCO₃',['تزيح نحو CO₂','لا تؤثر','تغير Kc'],'مول غاز واحد فقط.'),
+M('تحويل ثاني أكسيد الكبريت إلى ثالث أكسيد الكبريت 2SO₂(g) + O₂(g) ⇌ 2SO₃(g) ΔH = −198 kJ. لزيادة SO₃','زيادة الضغط وإضافة O₂',['رفع الحرارة','سحب O₂','خفض الضغط'],'ينزاح نحو الأقل مولات.'),
+M('إضافة مزيد من المتفاعل إلى نظام متزن تجعل Qc','أصغر من Kc',['أكبر من Kc','تساوي Kc','صفراً'],'ينزاح نحو النواتج.'),
+M('يتجه الاتزان عند سحب ناتج من النظام','نحو الأمام (تكوين المزيد منه)',['نحو الخلف','لا يتغير','يتوقف'],'تعويض النقص.'),
+M('أي التغييرات ينتج عنه تغير في قيمة Kc؟','تغيير درجة الحرارة',['تغيير الحجم','إضافة متفاعل','إضافة حفاز'],'Kc ثابت لدرجة حرارة محددة.'),
+M('لتعيين الاتجاه في الاتزان بعد زيادة الحجم يُنظر إلى','عدد مولات الغاز في كل جانب',['كتلة الأطراف','الألوان','Kc'],'الضغط يقل.')
+];
+/* ===== 6 متنوعة ===== */
+D.s6=[
+()=>{const r=R(1,5)*0.02,t=R(2,5)*10,d=r*t,c1=d+R(2,5)*0.1;return GQ(`تركيز ناتج ازداد من 0 إلى ${f(d)} M خلال ${t} s. متوسط سرعة تكوّنه`,r,[d,r*t*10,r*2],`${f(d)} ÷ ${t} = ${f(r)}.`,RT)},
+()=>{const m=R(1,2),n=R(1,2),k=P([1,2,3]),A=R(1,3),B=R(1,2);const r=k*Math.pow(A,m)*Math.pow(B,n);return GQ(`Rate = k[A]${sup(m)}[B]${sup(n)} حيث k = ${k} و[A] = ${A} و[B] = ${B}. السرعة (M/s)`,r,[k*A*B,k*(A+B),r+k],`Rate = ${k} × ${A}${sup(m)} × ${B}${sup(n)} = ${r}.`,'M/s')},
+()=>{const a=P([2,4]),s=P([1,2]),o=P([1,2]);const K=a*a/(s*s*o);return GQ(`2SO₂(g) + O₂(g) ⇌ 2SO₃(g): [SO₂] = ${s} و[O₂] = ${o} و[SO₃] = ${a} عند الاتزان. Kc`,K,[a/(s*o),a*a/(s*o),s*o/a],`Kc = ${a*a}/${s*s*o} = ${f(K)}.`)},
+()=>{const [eq,dn]=P(RXN.filter(x=>x[1]!==0));const ans=dn<0?SH[0]:SH[1];return mk(`للتفاعل ${eq}: عند ضغط الخليط في حجم أصغر يتجه الاتزان`,ans,`نحو الجانب الأقل مولات غاز.`)},
+M('أي العوامل الآتية يزيد سرعة التفاعل ولا يغير موضع الاتزان؟','الحفاز',['زيادة الضغط','رفع الحرارة','سحب الناتج'],'يخفض Ea للاتجاهين.'),
+M('تعتمد سرعة التفاعل الكلية على','أبطأ خطوة في الآلية',['أسرع خطوة','الناتج النهائي','الحفاز فقط'],'الخطوة المحددة.'),
+M('الصيغة الصحيحة لعبارة Kc للتفاعل N₂(g) + O₂(g) ⇌ 2NO(g)','Kc = [NO]² / ([N₂][O₂])',['Kc = [NO] / ([N₂][O₂])','Kc = [N₂][O₂] / [NO]²','Kc = 2[NO] / [N₂][O₂]'],'النواتج على المتفاعلات.'),
+M('قانون السرعة Rate = k[A][B]². الرتبة الكلية','3',['2','1','4'],'1 + 2.'),
+M('عند مضاعفة [B] في Rate = k[A][B]² تصبح السرعة','4 أمثالها',['مثلها','ضعفها','8 أمثالها'],'2² = 4.'),
+M('وحدة k في Rate = k[A][B]² (بالمولار والثانية)','L²/(mol²·s)',['s⁻¹','L/(mol·s)','mol/(L·s)'],'رتبة كلية 3.'),
+M('أي العوامل تؤثر في طاقة التنشيط؟','الحفاز',['الضغط','التركيز','الحجم'],'يخفضها.'),
+M('طاقة التنشيط الأمامي 50 kJ وΔH = −20 kJ. طاقة التنشيط للعكسي','70 kJ',['30 kJ','50 kJ','20 kJ'],'50 − (−20).'),
+M('تفاعل يصل إلى الاتزان تكون عنده سرعة التفاعل الأمامي','تساوي سرعة التفاعل العكسي',['أكبر','أقل','صفراً'],'اتزان ديناميكي.'),
+M('زيادة مساحة سطح المادة الصلبة المتفاعلة لا تؤثر في','قيمة Kc',['سرعة التفاعل','عدد التصادمات','زمن الوصول للاتزان'],'Kc ثابت عند درجة الحرارة.'),
+M('الخطوة البطيئة في آلية تفاعل ما تتكون من 2NO → N₂O₂ (سريعة) ثم N₂O₂ + O₂ → 2NO₂ (بطيئة). الوسيط','N₂O₂',['NO','O₂','NO₂'],'يتكون ثم يُستهلك.'),
+M('عند تسخين مخلوط متزن في تفاعل ماص للحرارة فإن Kc','تزداد',['تقل','تبقى ثابتة','تصبح صفراً'],'ينزاح نحو النواتج.'),
+M('Kc = 1×10⁻⁵ تدل على أن التفاعل','يميل نحو المتفاعلات',['يميل نحو النواتج','يتم تماماً','لا يتغير'],'قيمة صغيرة.'),
+M('إذا كانت Kc لتفاعل A ⇌ B تساوي 4 فإن Kc لتفاعل B ⇌ A','0.25',['4','2','16'],'1/4.'),
+M('أي مما يأتي لا يظهر في عبارة Kc؟','المواد الصلبة النقية',['الغازات','المواد المذابة','النواتج الغازية'],'تراكيزها ثابتة.'),
+M('أي العوامل يزيد سرعة التفاعل بزيادة عدد التصادمات الفعالة؟','رفع الحرارة',['إضافة مادة خاملة','خفض الضغط الجزئي','تقليل الكتلة'],'الطاقة أكبر.'),
+M('مخطط طاقة التفاعل: عندما تكون طاقة المتفاعلات أقل من طاقة النواتج يكون التفاعل','ماصاً للحرارة',['طارداً للحرارة','عكسياً فقط','بطيئاً دائماً'],'ΔH > 0.'),
+M('الاتزان الكيميائي لا يحدث في نظام','مفتوح تتسرب منه النواتج',['مغلق','ثابت الحرارة','ثابت الحجم'],'يشترط نظام مغلق.'),
+M('إضافة حفاز إلى تفاعل متزن تجعل Qc','لا تتغير',['أكبر','أقل','سالبة'],'لا يغير التراكيز.'),
+M('وحدة k عندما يكون Rate = k[A] (مولار، ثانية)','s⁻¹',['L/(mol·s)','mol/(L·s)','mol/L'],'أول رتبة.'),
+M('أي الآتية يصح عن التفاعل الطارد للحرارة؟','ΔH سالبة وطاقة النواتج أقل',['ΔH موجبة','طاقة النواتج أكبر','لا ينتج حرارة'],'تنطلق حرارة.'),
+M('زيادة تركيز أحد المتفاعلات في تفاعل أولي بسيط تؤدي إلى','زيادة سرعة التفاعل الأمامي',['نقصانها','عدم التأثير','تغير Kc'],'تصادمات أكثر.'),
+M('عند رفع درجة الحرارة 10 °C تتضاعف سرعة التفاعل غالباً. عند رفعها 30 °C تصبح','8 أمثالها',['6 أمثالها','3 أمثالها','4 أمثالها'],'2³ = 8.')
+];
+const NAMES9={s1:'متوسط سرعة التفاعل الكيميائي',s2:'العوامل المؤثرة على سرعة التفاعل الكيميائي',s3:'قانون سرعة التفاعل الكيميائي',s4:'التفاعلات الكيميائية والاتزان الكيميائي',s5:'قاعدة لوشاتيليه',s6:'أسئلة متنوعة'};
+const SHORT9={s1:'متوسط سرعة التفاعل',s2:'العوامل المؤثرة',s3:'قانون السرعة',s4:'الاتزان الكيميائي',s5:'قاعدة لوشاتيليه',s6:'أسئلة متنوعة'};
+const COL9={s1:'#0e7c86',s2:'#c2410c',s3:'#7c3aed',s4:'#15803d',s5:'#be185d',s6:'#0369a1'};
+const SUM9={
+s1:['سرعة التفاعل = التغير في التركيز ÷ الزمن، ووحدتها mol/(L·s) أو M/s.','للمتفاعل: Rate = −Δ[A]/Δt (تقل تراكيزه)، وللناتج: Rate = +Δ[P]/Δt.','تُربط سرع المواد في المعادلة الموزونة بالقسمة على معاملاتها.','السرعة متوسطة خلال فترة، ولحظية عند لحظة معينة (ميل المماس) وتقل غالباً مع الزمن.'],
+s2:['نظرية التصادم: يحدث التفاعل بتصادمات فعالة (طاقة ≥ Ea وتوجيه مناسب).','العوامل: طبيعة المتفاعلات، التركيز، مساحة السطح، درجة الحرارة، الحفاز (وضغط الغازات).','الحفاز يخفض طاقة التنشيط ولا يُستهلك ولا يغير ΔH.','مخطط الطاقة: قمة المنحنى تمثل المعقد المنشَّط، وارتفاعه عن المتفاعلات = Ea.'],
+s3:['قانون السرعة: Rate = k[A]ᵐ[B]ⁿ، وتُحدد m وn تجريبياً.','الرتبة الكلية = m + n. وحدة k: صفرية mol/(L·s)، أولى s⁻¹، ثانية L/(mol·s).','طريقة السرعات الابتدائية: مضاعفة [A] مع تثبيت الباقي؛ إن تضاعفت السرعة فالرتبة 1، وإن صارت 4 أمثالها فالرتبة 2.','السرعة الكلية يتحكم فيها أبطأ خطوة في الآلية.'],
+s4:['الاتزان الكيميائي: تتساوى سرعة التفاعلين الأمامي والعكسي وتثبت التراكيز في نظام مغلق.','Kc = [النواتج]^المعامل ÷ [المتفاعلات]^المعامل، ولا تدخل المواد الصلبة والسوائل النقية.','Kc كبيرة: يميل نحو النواتج، وصغيرة: نحو المتفاعلات، وتتغير بالحرارة فقط.','Qc < Kc: ينزاح نحو النواتج، Qc > Kc: نحو المتفاعلات.'],
+s5:['مبدأ لوشاتيليه: النظام المتزن يرد على أي مؤثر بانزياح يخفف أثره.','التركيز: زيادة متفاعل → يمين، زيادة ناتج → يسار. الضغط: ينزاح نحو الجانب الأقل مولات غاز.','الحرارة: رفعها يرجح الاتجاه الماص، وهي الوحيدة التي تغير Kc.','الحفاز والغاز الخامل (بثبات الحجم) لا يغيران موضع الاتزان.'],
+s6:['مراجعة تجمع السرعة وقانونها والعوامل والاتزان ولوشاتيليه.','تذكر: الأسس تُحدد تجريبياً، وKc تتغير بالحرارة فقط، والحفاز يسرع الاتجاهين.']};
+const EX9={
+s1:['مثال 1: انخفض تركيز A من 0.80 M إلى 0.50 M خلال 10 s. ما متوسط السرعة؟','الحل: Rate = (0.80 − 0.50) ÷ 10 = 0.03 mol/(L·s).',
+ 'مثال 2: في التفاعل التالي إذا كانت سرعة تكوّن NH₃ تساوي 0.30 mol/(L·s) فما سرعة استهلاك H₂؟','§N₂(g) + 3H₂(g) → 2NH₃(g)','الحل: Rate(H₂) = 3/2 × 0.30 = 0.45 mol/(L·s).',
+ 'مثال 3: في التفاعل التالي إذا كانت سرعة تكوّن O₂ تساوي 0.02 M/s فما سرعة تفكك N₂O₅؟','§2N₂O₅(g) → 4NO₂(g) + O₂(g)','الحل: سرعة N₂O₅ = 2 × 0.02 = 0.04 M/s.'],
+s2:['مثال 1: إذا تضاعفت السرعة لكل ارتفاع 10 °C وكانت 0.2 M/s عند 25 °C فعند 45 °C:','الحل: 0.2 × 2² = 0.8 M/s.',
+ 'مثال 2: يتفاعل مسحوق المغنيسيوم أسرع من الشريط لزيادة مساحة السطح:','§Mg(s) + 2HCl(aq) → MgCl₂(aq) + H₂(g)',
+ 'مثال 3: الحفاز MnO₂ يسرع تحلل بيروكسيد الهيدروجين دون أن يُستهلك:','§2H₂O₂(aq) → 2H₂O(l) + O₂(g)   [حفاز: MnO₂]',
+ 'مثال 4: Ea الأمامي = 80 kJ وΔH = −30 kJ ⇒ Ea العكسي = 80 − (−30) = 110 kJ.'],
+s3:['مثال 1: لتفاعل التالي قانون السرعة تجريبي:','§2NO(g) + O₂(g) → 2NO₂(g)','§Rate = k[NO]²[O₂]','الرتبة الكلية = 3؛ مضاعفة [NO] تعطي سرعة 4 أمثالها، ومضاعفة [O₂] تضاعفها.',
+ 'مثال 2: Rate = k[A] وكانت السرعة 0.02 M/s و[A] = 0.5 M فإن k = 0.02 ÷ 0.5 = 0.04 s⁻¹.',
+ 'مثال 3: تجربتان: [A] تضاعف بثبات [B] فصارت السرعة 4 أمثالها ⇒ رتبة A = 2.'],
+s4:['مثال 1: كتابة Kc لتفاعل هابر:','§N₂(g) + 3H₂(g) ⇌ 2NH₃(g)','§Kc = [NH₃]² / ([N₂][H₂]³)',
+ 'مثال 2: إذا [N₂] = 1 و[H₂] = 2 و[NH₃] = 4 عند الاتزان فإن Kc = 16 ÷ (1 × 8) = 2.',
+ 'مثال 3: اتزان غير متجانس لا تدخل فيه المواد الصلبة:','§CaCO₃(s) ⇌ CaO(s) + CO₂(g)','§Kc = [CO₂]'],
+s5:['مثال 1: تفاعل هابر الطارد للحرارة:','§N₂(g) + 3H₂(g) ⇌ 2NH₃(g)   ΔH = −92 kJ','زيادة الضغط تزيح نحو NH₃ (4 مولات ← 2 مول)، ورفع الحرارة يزيح نحو المتفاعلات.',
+ 'مثال 2: التفاعل الماص:','§N₂O₄(g) ⇌ 2NO₂(g)   ΔH > 0','رفع الحرارة يزيح نحو NO₂ (اللون أغمق)، وزيادة الضغط يزيح نحو N₂O₄ (أفتح).',
+ 'مثال 3: تساوي عدد المولات:','§H₂(g) + I₂(g) ⇌ 2HI(g)','تغيير الضغط لا يغير موضع الاتزان.'],
+s6:['مثال: لقانون السرعة Rate = k[A][B]² عند مضاعفة [A] وتثليث [B] تصبح السرعة 2 × 3² = 18 مثلاً.',
+ 'مثال: Kc للتفاعل التالي = [NO]² / ([N₂][O₂]):','§N₂(g) + O₂(g) ⇌ 2NO(g)']};
+const K9=['s1','s2','s3','s4','s5','s6'];
+const SECTIONS=[];
+K9.forEach((k,i)=>SECTIONS.push({id:k,n:i+1,title:NAMES9[k],short:SHORT9[k],color:COL9[k],sum:SUM9[k],ex:EX9[k],
+  train:D[k].slice(0,20),quiz:[...D[k].slice(20,26),...D[k].slice(0,4)]}));
+SECTIONS.push({id:'s7',n:7,title:'الشامل (60 سؤالاً)',short:'القسم الشامل',color:'#1d4ed8',
+  sum:['يجمع 60 سؤالاً من الأقسام الستة (10 من كل قسم) لمراجعة شاملة قبل الاختبار النهائي.'],ex:[],
+  train:K9.flatMap(k=>D[k].slice(6,16)),quiz:[]});
+SECTIONS.push({id:'final',n:8,title:'الاختبار النهائي (نمط التحصيلي)',short:'الاختبار النهائي',color:'#b91c1c',sum:[],ex:[],
+  train:[...K9.flatMap(k=>D[k].slice(10,18)),D.s3[18],D.s4[18]],quiz:[]});
+
+</script>
+<script>
+"use strict";
+/* ============ إعدادات المنصة ============ */
+const EMAIL='momran1985@gmail.com';          // بريد المعلم لاستقبال النتائج — يمكن تغييره من هنا
+const TEACHER_PHONE='0563264267';
+const TEACHER='أ. محمد عمران';
+const TEACHER_TITLE='مدرب التحصيلي';
+const SCHOOL='مدارس الأنجال الأهلية بالأحساء';
+const PLATFORM='منصة اختبارات تحصيلي — سرعة التفاعل والاتزان الكيميائي';
+const STORE='tahsili_kinetics_platform_v1';
+const QUIZ_SECS=600, FINAL_SECS=3600;
+const LET=['أ','ب','ج','د'];
+
+/* ============ أدوات ============ */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const RX=/[−\-]?(?:[A-Za-z0-9Δπθμₓ√²³°%₀-₉⁰¹⁴-⁹(\[][A-Za-z0-9Δπθμₓ√−\-+=×÷·.,()\[\]\/\^²³°%_̄₀-₉⁰¹⁴-⁹⁺⁻⇌→←↔⇄ ]*[A-Za-z0-9Δπθμₓ²³°%)\]̄₀-₉⁰¹⁴-⁹⁺⁻]|[A-Za-z0-9Δπθμₓ])/g;
+function fx(s){let out='',last=0,m;RX.lastIndex=0;s=String(s);
+  while((m=RX.exec(s))){out+=esc(s.slice(last,m.index))+'<bdi dir="ltr">'+esc(m[0])+'</bdi>';last=m.index+m[0].length}
+  return out+esc(s.slice(last))}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const mmss=s=>{s=Math.max(0,Math.round(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+const toEn=s=>String(s).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+const dateAr=d=>new Date(d).toLocaleString('ar-SA',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2400)}
+
+/* ============ التخزين (المتصفح) ============ */
+let mem=null;
+function load(){try{const r=localStorage.getItem(STORE);if(r)return JSON.parse(r)}catch(e){}return mem||{cur:null,users:{}}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(db))}catch(e){mem=db}}
+let db=load();
+const user=()=>db.cur&&db.users[db.cur];
+
+/* ============ الرسوم البيانية ============ */
+function niceStep(r){const p=Math.pow(10,Math.floor(Math.log10(r/5)));for(const m of [1,2,2.5,5,10]){if(r/(m*p)<=6)return m*p}return 10*p}
+const nf=v=>String(Number(v.toFixed(2)));
+function drawGraph(g){
+  const W=360,H=232,ml=52,mr=20,mt=16,mb=46,cols=['#0e7c86','#e8590c'];
+  const xs=[],ys=[];g.L.forEach(l=>l.p.forEach(([x,y])=>{xs.push(x);ys.push(y)}));
+  let xmax=Math.max(...xs),ymax=Math.max(...ys,0),ymin=Math.min(...ys,0);
+  const sx=niceStep(xmax),sy=niceStep((ymax-ymin)||1);
+  xmax=Math.ceil(xmax/sx-1e-9)*sx;ymax=Math.ceil(ymax/sy-1e-9)*sy;ymin=Math.floor(ymin/sy+1e-9)*sy;
+  const X=x=>ml+x/xmax*(W-ml-mr),Y=y=>mt+(ymax-y)/(ymax-ymin)*(H-mt-mb);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="رسم بياني">`;
+  for(let x=0;x<=xmax+1e-9;x+=sx){s+=`<line x1="${X(x)}" y1="${mt}" x2="${X(x)}" y2="${H-mb}" stroke="#e5dfca" stroke-width="1"/><text x="${X(x)}" y="${H-mb+15}" font-size="11" text-anchor="middle" fill="#34476b">${nf(x)}</text>`}
+  for(let y=ymin;y<=ymax+1e-9;y+=sy){s+=`<line x1="${ml}" y1="${Y(y)}" x2="${W-mr}" y2="${Y(y)}" stroke="#e5dfca" stroke-width="1"/><text x="${ml-6}" y="${Y(y)+4}" font-size="11" text-anchor="end" fill="#34476b">${nf(y)}</text>`}
+  s+=`<line x1="${ml}" y1="${Y(0)}" x2="${W-mr}" y2="${Y(0)}" stroke="#10264a" stroke-width="1.8"/><line x1="${ml}" y1="${mt}" x2="${ml}" y2="${H-mb}" stroke="#10264a" stroke-width="1.8"/>`;
+  const xl=g.xl||'الزمن (s)',yl=g.yl||'';
+  s+=`<text x="${(ml+W-mr)/2}" y="${H-6}" font-size="12" font-weight="700" text-anchor="middle" fill="#10264a">${xl}</text>`;
+  s+=`<text transform="translate(13 ${(mt+H-mb)/2}) rotate(-90)" font-size="12" font-weight="700" text-anchor="middle" fill="#10264a">${yl}</text>`;
+  g.L.forEach((l,i)=>{const c=cols[i%2];
+    s+=`<polyline fill="none" stroke="${c}" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round" points="${l.p.map(([x,y])=>X(x)+','+Y(y)).join(' ')}"/>`;
+    if(l.p.length<=4)l.p.forEach(([x,y])=>{s+=`<circle cx="${X(x)}" cy="${Y(y)}" r="3.2" fill="${c}"/>`});
+    if(l.n){const [x,y]=l.p[l.p.length-1];s+=`<text x="${X(x)-6}" y="${Y(y)-7}" font-size="14" font-weight="800" fill="${c}" text-anchor="end">${l.n}</text>`}
+  });
+  return s+'</svg>'}
+
+/* ============ الجلسة ============ */
+let S=null,tick=null;
+const SEC=id=>SECTIONS.find(s=>s.id===id);
+function bank(secId,mode){
+  const sec=SEC(secId);
+  if(mode==='train'||mode==='final')return sec.train;
+  if(secId==='s7')return shuffle(['s1','s2','s3','s4','s5','s6'].flatMap(i=>SEC(i).quiz.map(x=>typeof x==='function'?x():x))).slice(0,10);
+  return sec.quiz;}
+function build(secId,mode,random){
+  let b=bank(secId,mode);if(random)b=shuffle(b);
+  return b.map(q=>{if(typeof q==='function')q=q();const idx=shuffle([0,1,2,3]);return{q:q.q,g:q.g,e:q.e,o:idx.map(i=>q.o[i]),c:idx.indexOf(0)}})}
+function start(secId,mode,random){
+  clearInterval(tick);
+  const sec=SEC(secId);
+  S={sec,mode,qs:build(secId,mode,random),i:0,ans:[],pts:[],t0:Date.now(),qs0:Date.now(),
+     limit:mode==='quiz'?QUIZ_SECS:mode==='final'?FINAL_SECS:0,done:false};
+  if(S.limit){tick=setInterval(onTick,1000)}
+  renderQ(true);window.scrollTo(0,0)}
+function onTick(){
+  if(!S||S.done){clearInterval(tick);return}
+  const left=S.limit-(Date.now()-S.t0)/1000,e=$('#timer');
+  if(e){e.textContent=mmss(left);e.classList.toggle('low',left<=60)}
+  if(left<=0){toast('انتهى الوقت — تم تسليم الاختبار');finish()}}
+
+/* ============ شاشة الدخول ============ */
+function viewLogin(){
+  $('#app').innerHTML=`
+  <div class="login">
+    <div class="hero">
+      <span class="tag">${TEACHER_TITLE} · ${TEACHER}</span>
+      <h1>منصة اختبارات <span>التحصيلي</span><br>الكيمياء — سرعة التفاعل والاتزان</h1>
+      <p>تدرّب على أسئلة سرعة التفاعل وعوامله وقانونه، الاتزان الكيميائي وقاعدة لوشاتيليه وفق المنهج السعودي، مع تصحيح فوري وتفسير لكل سؤال، ثم اختبر نفسك واحصل على شهادة إنجاز.</p>
+      <svg viewBox="0 0 360 170" aria-hidden="true">
+        <path d="M20 10V150H345" fill="none" stroke="#10264a" stroke-opacity=".35" stroke-width="1.5"/>
+        <path class="trace" d="M20 150 C 90 150, 120 140, 170 100 S 260 20, 330 20" fill="none" stroke="#e8590c" stroke-width="4" stroke-linecap="round"/>
+        <circle class="dot" r="7" fill="#10264a"/>
+        <text x="332" y="164" font-size="11" fill="#34476b" text-anchor="end">t</text><text x="8" y="16" font-size="11" fill="#34476b">x</text>
+      </svg>
+    </div>
+    <form class="card form" id="lf" autocomplete="off">
+      <h2>تسجيل الدخول</h2>
+      <p class="hint">تُحفظ بياناتك ونتائجك في هذا المتصفح فقط.</p>
+      <label for="nm">الاسم الثلاثي</label>
+      <input type="text" id="nm" placeholder="مثال: أحمد محمد العلي" required>
+      <label for="ph">رقم الجوال</label>
+      <input type="tel" id="ph" inputmode="numeric" placeholder="05xxxxxxxx" maxlength="10" required>
+      <div class="err" id="er"></div>
+      <button class="btn" style="width:100%;margin-top:6px" type="submit">دخول المنصة</button>
+      <p class="hint" style="margin-top:12px">للتواصل مع المعلم: <a href="tel:${TEACHER_PHONE}" style="color:var(--teal);font-weight:700"><bdi dir="ltr">${TEACHER_PHONE}</bdi></a></p>
+    </form>
+  </div>`;
+  $('#lf').onsubmit=ev=>{ev.preventDefault();
+    const name=$('#nm').value.trim().replace(/\s+/g,' '),ph=toEn($('#ph').value).replace(/\D/g,'');
+    const er=$('#er');
+    if(name.split(' ').length<3){er.textContent='يرجى كتابة الاسم الثلاثي (ثلاث كلمات على الأقل).';return}
+    if(!/^05\d{8}$/.test(ph)){er.textContent='رقم الجوال غير صحيح، اكتبه بصيغة 05xxxxxxxx (10 أرقام).';return}
+    const u=db.users[ph]||(db.users[ph]={phone:ph,results:[]});u.name=name;db.cur=ph;save();viewHome()}}
+
+/* ============ الصفحة الرئيسية ============ */
+function bestOf(u,secId,mode){const r=u.results.filter(x=>x.sec===secId&&x.mode===mode);return r.length?Math.max(...r.map(x=>x.pct)):null}
+function medalSvg(sz=22){return`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2l3 6h4l3-6" fill="none" stroke="#c0392b" stroke-width="2"/><circle cx="12" cy="15" r="6.5" fill="#f5b81c" stroke="#b97800" stroke-width="1.5"/><path d="M12 11.5l1.1 2.3 2.5.3-1.8 1.7.5 2.5-2.3-1.3-2.3 1.3.5-2.5-1.8-1.7 2.5-.3z" fill="#fff6dd"/></svg>`}
+function pillFor(u,id,mode,label){const b=bestOf(u,id,mode);
+  return b===null?`<span class="pill">${label}: لم يُجرَ</span>`:`<span class="pill ${b>=80?'good':''}">${label}: ${b}%${b>=80?' · وسام':''}</span>`}
+function exHtml(s,op){if(!s.ex||!s.ex.length)return'';return`<details class="sum"${op?' open':''}><summary>أمثلة محلولة</summary>${s.ex.map(x=>x[0]==='§'?`<div class="eq" dir="ltr">${esc(x.slice(1))}</div>`:`<p class="exm">${fx(x)}</p>`).join('')}</details>`}
+function viewHome(){
+  clearInterval(tick);S=null;const u=user();if(!u)return viewLogin();
+  const R=u.results,pts=R.reduce((a,r)=>a+r.pts,0),avg=R.length?Math.round(R.reduce((a,r)=>a+r.pct,0)/R.length):0;
+  const medals=SECTIONS.reduce((a,s)=>a+(['train','quiz','final'].some(m=>{const b=bestOf(u,s.id,m);return b!==null&&b>=80})?1:0),0);
+  const card=s=>{
+    const tl=s.train.length,hasQ=s.id!=='final';
+    if(s.id==='final')return'';
+    return`<div class="card scard" style="--c:${s.color}">
+      <div class="num">${s.n}</div>
+      <h3>القسم ${['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع'][s.n]}: ${esc(s.title)}</h3>
+      <div class="meta">${tl} سؤالاً تدريبياً · اختبار قسم من 10 أسئلة</div>${s.sum&&s.sum.length?`<details class="sum"><summary>شرح مختصر للقسم</summary><ul>${s.sum.map(x=>`<li>${fx(x)}</li>`).join('')}</ul></details>`:''}${exHtml(s,false)}
+      <div class="best">${pillFor(u,s.id,'train','التدريب')}${pillFor(u,s.id,'quiz','الاختبار')}</div>
+      <div class="row"><button class="btn sm" data-a="open" data-s="${s.id}" data-m="train">ابدأ التدريب</button>
+      <button class="btn sm amber" data-a="open" data-s="${s.id}" data-m="quiz">اختبار القسم</button></div></div>`};
+  const f=SEC('final');
+  $('#app').innerHTML=`
+  <div class="top"><div class="brand">${logo()}<div><b>${PLATFORM}</b><small>إعداد ${TEACHER_TITLE} ${TEACHER} — ${SCHOOL}</small></div></div>
+    <span class="chip">${esc(u.name)}</span><button class="btn sm sec" data-a="logout">خروج</button></div>
+  <div class="stats">
+    <div class="card stat"><b>${R.length}</b><span>محاولة منجزة</span></div>
+    <div class="card stat"><b>${avg}%</b><span>متوسط النتائج</span></div>
+    <div class="card stat"><b>${pts}</b><span>مجموع النقاط</span></div>
+    <div class="card stat"><b>${medals}</b><span>أوسمة (80% فأكثر)</span></div>
+  </div>
+  <div class="grid">${SECTIONS.map(card).join('')}</div>
+  <div class="card final">
+    <div class="grow"><h3>الاختبار النهائي — نمط التحصيلي</h3><p>${f.train.length} سؤالاً من الأقسام جميعها · زمن الاختبار 60 دقيقة · التصحيح بعد التسليم</p>
+    <div class="best" style="margin:8px 0 0">${pillFor(u,'final','final','أفضل نتيجة')}</div></div>
+    <button class="btn amber" data-a="open" data-s="final" data-m="final">ابدأ الاختبار النهائي</button></div>
+  <div class="foot"><button class="btn sec sm" data-a="report">إرسال التقرير العام للمعلم</button>
+    <button class="btn sec sm" data-a="reset">مسح نتائجي</button></div>
+  <div class="credit">للتواصل مع المعلم: <a href="tel:${TEACHER_PHONE}"><bdi dir="ltr">${TEACHER_PHONE}</bdi></a> · ${TEACHER_TITLE} ${TEACHER}</div>`}
+function logo(){return`<svg width="38" height="38" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#f59e0b"/><path d="M7 32C14 32 17 29 21 22S28 8 34 8" fill="none" stroke="#10264a" stroke-width="3.2" stroke-linecap="round"/><circle cx="34" cy="8" r="3.4" fill="#10264a"/></svg>`}
+
+/* نافذة بدء الاختبار */
+function openStart(secId,mode){
+  const s=SEC(secId),n=mode==='train'?s.train.length:mode==='final'?s.train.length:10;
+  const kind=mode==='train'?'تدريب':mode==='quiz'?'اختبار القسم':'الاختبار النهائي';
+  const info=mode==='train'?['تصحيح فوري بعد كل سؤال مع تفسير','نقاط حسب سرعة الإجابة (حتى 20 نقطة للسؤال)','يمكنك التدريب مرات غير محدودة']
+    :['التصحيح والمراجعة بعد التسليم','الزمن: '+(mode==='quiz'?'10 دقائق':'60 دقيقة')+' ويُسلَّم الاختبار تلقائياً عند انتهائه','لكل إجابة صحيحة 10 نقاط · وسام عند 80% · شهادة عند 60%'];
+  const o=document.createElement('div');o.className='ov';o.id='ov';
+  o.innerHTML=`<div class="modal"><h3>${kind}: ${esc(s.short)}</h3><p style="margin:0;color:var(--ink2)">${n} سؤالاً</p>${mode==='train'&&s.sum&&s.sum.length?`<div style="max-height:46vh;overflow:auto"><details class="sum" open><summary>شرح مختصر</summary><ul>${s.sum.map(x=>`<li>${fx(x)}</li>`).join('')}</ul></details>${exHtml(s,false)}</div>`:''}<ul>${info.map(i=>`<li>${i}</li>`).join('')}</ul>
+    <label class="chk"><input type="checkbox" id="rnd"${mode!=='train'?' checked':''}> ترتيب عشوائي للأسئلة</label>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn sec sm" data-a="closeov">إلغاء</button><button class="btn" data-a="go" data-s="${secId}" data-m="${mode}">ابدأ الآن</button></div></div>`;
+  document.body.appendChild(o)}
+
+/* ============ شاشة السؤال ============ */
+function renderQ(animate){
+  const q=S.qs[S.i],tr=S.mode==='train',n=S.qs.length,a=S.ans[S.i],answered=a!==undefined;
+  const label=S.mode==='train'?'تدريب':S.mode==='quiz'?'اختبار القسم':'الاختبار النهائي';
+  const left=S.limit?S.limit-(Date.now()-S.t0)/1000:0;
+  const opts=q.o.map((t,i)=>{let cls='opt';
+    if(tr&&answered){cls+=' lock';if(i===q.c)cls+=' ok';else if(i===a)cls+=' no'}
+    else if(!tr&&a===i)cls+=' sel';
+    return`<button class="${cls}" data-a="pick" data-i="${i}"><span class="l">${LET[i]}</span><span>${fx(t)}</span></button>`}).join('');
+  let fb='';
+  if(tr&&answered){const ok=a===q.c;fb=`<div class="fb ${ok?'ok':'no'}"><b class="h">${ok?'إجابة صحيحة ✓ +'+S.pts[S.i]+' نقطة':'إجابة غير صحيحة ✗'}</b>${ok?'':'<div>الإجابة الصحيحة: <b>'+LET[q.c]+' — '+fx(q.o[q.c])+'</b></div>'}<div>${fx(q.e)}</div></div>`}
+  let nav;
+  if(tr)nav=`<div class="nav"><button class="btn sec sm" data-a="home">الرئيسية</button><button class="btn" data-a="next" ${answered?'':'disabled'}>${S.i===n-1?'عرض النتيجة':'السؤال التالي ←'}</button></div>`;
+  else nav=`<div class="nav"><button class="btn sec" data-a="prev" ${S.i===0?'disabled':''}>→ السابق</button><button class="btn red sm" data-a="finish">إنهاء وتسليم</button><button class="btn" data-a="next" ${S.i===n-1?'disabled':''}>التالي ←</button></div>
+    <div class="dots">${S.qs.map((_,i)=>`<button class="${i===S.i?'cur':S.ans[i]!==undefined?'done':''}" data-a="go2" data-i="${i}">${i+1}</button>`).join('')}</div>`;
+  const pts=S.pts.reduce((x,y)=>x+(y||0),0);
+  $('#app').innerHTML=`
+  <div class="top"><div class="brand">${logo()}<div><b>${esc(S.sec.title)}</b><small>${label}</small></div></div>
+    <span class="chip">${esc(user().name)}</span>${S.limit?`<span class="timer${left<=60?' low':''}" id="timer">${mmss(left)}</span>`:`<span class="chip">النقاط: ${pts}</span>`}</div>
+  <div class="prog" style="--c:${S.sec.color}"><i style="width:${(S.i+(tr&&answered?1:0))/n*100}%"></i></div>
+  <div class="card qcard${animate?' in':''}" style="--c:${S.sec.color}">
+    <span class="qn">سؤال ${S.i+1} من ${n}</span>
+    <div class="qt">${fx(q.q)}</div>
+    ${q.g?`<div class="fig">${drawGraph(q.g)}</div>`:''}
+    <div class="opts">${opts}</div>${fb}${nav}</div>`;
+  if(tr&&!answered)S.qs0=Date.now()}
+
+function pick(i){
+  const q=S.qs[S.i];
+  if(S.mode==='train'){
+    if(S.ans[S.i]!==undefined)return;
+    S.ans[S.i]=i;const sec=(Date.now()-S.qs0)/1000;
+    S.pts[S.i]=i===q.c?10+Math.max(0,10-Math.floor(sec/3)):0;
+  }else S.ans[S.i]=i;
+  renderQ(false)}
+
+/* ============ إنهاء الجلسة والنتيجة ============ */
+function finish(){
+  if(!S||S.done)return;
+  S.done=true;clearInterval(tick);
+  const n=S.qs.length;let score=0;
+  S.qs.forEach((q,i)=>{if(S.ans[i]===q.c)score++});
+  const pts=S.mode==='train'?S.pts.reduce((x,y)=>x+(y||0),0):score*10;
+  const pct=Math.round(score/n*100),secs=Math.round((Date.now()-S.t0)/1000);
+  S.res={sec:S.sec.id,title:S.sec.short,mode:S.mode,score,total:n,pct,pts,secs,date:Date.now()};
+  const u=user();u.results.push(S.res);save();viewResult()}
+const kindName=m=>m==='train'?'تدريب':m==='quiz'?'اختبار قسم':'اختبار نهائي';
+function viewResult(showAll){
+  const r=S.res,C=2*Math.PI*70,col=r.pct>=80?'#15803d':r.pct>=60?'#0e7c86':r.pct>=40?'#e8590c':'#b91c1c';
+  const msg=r.pct>=90?'ممتاز! أداء رائع 🌟':r.pct>=80?'أحسنت! مستوى متميز':r.pct>=60?'جيد — واصل التدريب لتتقدم أكثر':r.pct>=40?'مقبول — راجع التفسيرات وأعد المحاولة':'تحتاج إلى مراجعة الدرس ثم إعادة المحاولة';
+  const rev=S.qs.map((q,i)=>{const a=S.ans[i],ok=a===q.c,sk=a===undefined;
+    if(!showAll&&showAll!==undefined&&ok)return'';
+    return`<div class="card rvi ${ok?'ok':'no'}"><div class="q"><span class="tag2 ${ok?'ok':sk?'sk':'no'}">${ok?'صحيحة':sk?'بلا إجابة':'خاطئة'}</span>${i+1}. ${fx(q.q)}</div>
+    ${q.g?`<div class="fig">${drawGraph(q.g)}</div>`:''}
+    <div class="ans">${sk?'لم تُجب عن هذا السؤال.':'إجابتك: <b>'+LET[a]+' — '+fx(q.o[a])+'</b>'}</div>
+    ${ok?'':'<div class="ans">الإجابة الصحيحة: <b style="color:var(--ok)">'+LET[q.c]+' — '+fx(q.o[q.c])+'</b></div>'}
+    <div class="ex">${fx(q.e)}</div></div>`}).join('');
+  $('#app').innerHTML=`
+  <div class="top"><div class="brand">${logo()}<div><b>${esc(S.sec.title)}</b><small>نتيجة ${kindName(r.mode)}</small></div></div><span class="chip">${esc(user().name)}</span></div>
+  <div class="card res">
+    <div class="ring"><svg viewBox="0 0 170 170"><circle cx="85" cy="85" r="70" fill="none" stroke="#ece7d4" stroke-width="16"/><circle cx="85" cy="85" r="70" fill="none" stroke="${col}" stroke-width="16" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-r.pct/100)}"/></svg>
+      <div class="c"><div>${r.pct}%<small>${r.score} من ${r.total}</small></div></div></div>
+    <div class="msg">${msg}</div>
+    ${r.pct>=80?`<div class="medal">${medalSvg()} وسام التميّز</div>`:''}
+    <div class="kv"><div><b>${r.score}/${r.total}</b><span>الدرجة</span></div><div><b>${r.pts}</b><span>النقاط</span></div><div><b><bdi dir="ltr">${mmss(r.secs)}</bdi></b><span>الزمن المستغرق</span></div></div>
+    <div class="actions">
+      <button class="btn amber" data-a="mail">إرسال النتيجة للمعلم</button>
+      <button class="btn sec" data-a="copy">نسخ النتيجة</button>
+      ${r.pct>=60?'<button class="btn" data-a="cert">شهادة الإنجاز</button>':''}
+      <button class="btn sec" data-a="again">إعادة المحاولة</button>
+      <button class="btn sec" data-a="home">الرئيسية</button></div>
+    ${r.pct<60?'<p class="hint" style="margin-top:10px">تُمنح شهادة الإنجاز عند تحقيق 60% فأكثر.</p>':''}
+  </div>
+  <div class="rv"><div class="qbar"><h2 class="t">مراجعة الأسئلة</h2>
+    <button class="btn sec sm" data-a="rvall">عرض الكل</button><button class="btn sec sm" data-a="rverr">الأخطاء فقط</button></div>
+    ${rev||'<div class="card" style="padding:18px;text-align:center">لا توجد أخطاء — إجاباتك كلها صحيحة 🎉</div>'}</div>`;
+  window.scrollTo(0,0)}
+
+/* ============ البريد والنسخ ============ */
+function summaryText(){
+  const u=user(),r=S.res,wrong=S.qs.map((q,i)=>S.ans[i]===q.c?null:i+1).filter(Boolean);
+  return[`نتيجة طالب — ${PLATFORM}`,`الاسم: ${u.name}`,`الجوال: ${u.phone}`,`القسم: ${S.sec.title}`,`النوع: ${kindName(r.mode)}`,
+    `الدرجة: ${r.score} من ${r.total}`,`النسبة: ${r.pct}%`,`النقاط: ${r.pts}`,`الزمن المستغرق: ${mmss(r.secs)}`,`التاريخ: ${dateAr(r.date)}`,
+    `أرقام الأسئلة الخاطئة: ${wrong.length?wrong.join('، '):'لا يوجد'}`,'','— أُرسلت من المنصة'].join('\n')}
+function openMail(subject,body){
+  let b=body;if(encodeURIComponent(b).length>1800)b=b.slice(0,600)+'\n…';
+  location.href='mailto:'+EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(b)}
+function copyText(t){
+  const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('تم نسخ النتيجة')}catch(e){toast('تعذّر النسخ')}a.remove()};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(()=>toast('تم نسخ النتيجة'),fb);else fb()}
+function reportText(){
+  const u=user(),lines=[`التقرير العام — ${PLATFORM}`,`الاسم: ${u.name}`,`الجوال: ${u.phone}`,''];
+  SECTIONS.forEach(s=>{const parts=['train','quiz','final'].map(m=>{const b=bestOf(u,s.id,m);return b===null?null:kindName(m)+' '+b+'%'}).filter(Boolean);
+    if(parts.length)lines.push(`${s.short}: ${parts.join(' | ')}`)});
+  const R=u.results;lines.push('',`عدد المحاولات: ${R.length}`,`مجموع النقاط: ${R.reduce((a,r)=>a+r.pts,0)}`,`التاريخ: ${dateAr(Date.now())}`);
+  return lines.join('\n')}
+
+/* ============ الشهادة ============ */
+function showCert(){
+  const u=user(),r=S.res;
+  $('#cert').innerHTML=`<div class="certbox"><div class="certbar"><button class="btn amber" data-a="print">طباعة / حفظ PDF</button><button class="btn sec" data-a="closecert">إغلاق</button></div>
+  <div class="cpage"><div style="font-size:.95rem;letter-spacing:.5px">${SCHOOL}</div>
+    <h1>شهادة إنجاز</h1><p>تشهد منصة التحصيلي التفاعلية في الفيزياء بأن الطالب</p>
+    <div><span class="nm">${esc(u.name)}</span></div>
+    <p>قد أتمّ بنجاح <b>${kindName(r.mode)}</b> في <b>${esc(S.sec.title)}</b></p>
+    <p>وحقّق درجة <b>${r.score} من ${r.total}</b> بنسبة <b>${r.pct}%</b>${r.pct>=80?' — بتقدير <b>متميّز</b>':r.pct>=60?' — بتقدير <b>جيّد</b>':''}</p>
+    <p style="font-size:.95rem;color:#6b5a2c">التاريخ: ${dateAr(r.date)}</p>
+    <div class="sig"><div>${TEACHER_TITLE}<br><b>${TEACHER}</b></div><div>${r.pct>=80?medalSvg(34):''}</div></div></div></div>`;
+  $('#cert').className='show'}
+
+/* ============ توزيع الأحداث ============ */
+const A={
+  open:d=>openStart(d.s,d.m),
+  closeov:()=>{const o=$('#ov');o&&o.remove()},
+  go:d=>{const r=$('#rnd')?$('#rnd').checked:false;A.closeov();start(d.s,d.m,r)},
+  pick:d=>pick(+d.i),
+  next:()=>{if(S.mode==='train'&&S.i===S.qs.length-1){finish();return}if(S.i<S.qs.length-1){S.i++;renderQ(true)}},
+  prev:()=>{if(S.i>0){S.i--;renderQ(true)}},
+  go2:d=>{S.i=+d.i;renderQ(true)},
+  finish:()=>{const un=S.qs.length-S.ans.filter(x=>x!==undefined).length;
+    if(un>0&&!confirm('لديك '+un+' سؤالاً بلا إجابة. هل تريد التسليم؟'))return;
+    if(un===0&&!confirm('هل تريد تسليم الاختبار الآن؟'))return;finish()},
+  home:()=>{if(S&&!S.done&&!confirm('سيتم الخروج دون حفظ هذه المحاولة. هل تريد المتابعة؟'))return;viewHome()},
+  logout:()=>{db.cur=null;save();viewLogin()},
+  reset:()=>{if(confirm('هل تريد مسح جميع نتائجك المحفوظة في هذا المتصفح؟')){user().results=[];save();viewHome()}},
+  mail:()=>openMail(`نتيجة ${user().name} — ${S.sec.short} (${kindName(S.res.mode)})`,summaryText()),
+  copy:()=>copyText(summaryText()),
+  report:()=>openMail(`التقرير العام — ${user().name}`,reportText()),
+  cert:showCert,
+  print:()=>window.print(),
+  closecert:()=>{$('#cert').className='';$('#cert').innerHTML=''},
+  again:()=>openStart(S.sec.id,S.mode),
+  rvall:()=>viewResultKeep(true),
+  rverr:()=>viewResultKeep(false)
+};
+function viewResultKeep(all){const y=window.scrollY;viewResult(all);window.scrollTo(0,$('.rv').offsetTop-10)}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t||t.disabled)return;const f=A[t.dataset.a];f&&f(t.dataset)});
+document.addEventListener('keydown',e=>{
+  if(!S||S.done||document.getElementById('ov')||e.target.tagName==='INPUT')return;
+  const k=toEn(e.key);
+  if(/^[1-4]$/.test(k)){pick(+k-1)}
+  else if(e.key==='Enter'||e.key==='ArrowLeft'){const b=document.querySelector('[data-a="next"]');if(b&&!b.disabled)b.click()}
+  else if(e.key==='ArrowRight'&&S.mode!=='train'){A.prev()}});
+window.addEventListener('beforeunload',e=>{if(S&&!S.done){e.preventDefault();e.returnValue=''}});
+
+/* بدء التشغيل */
+user()?viewHome():viewLogin();
+</script>
+</body>
+</html>
